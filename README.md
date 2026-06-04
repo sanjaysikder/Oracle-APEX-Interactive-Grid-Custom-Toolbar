@@ -183,4 +183,7 @@ with modern Font Awesome icons.
 
 **Sanjay Sikder**
 
-💼 Connect with me on **[LinkedIn](https://www.linkedin.com/in/sanjay-sikder/)**.
+## 📬 Contact
+
+- 💼 LinkedIn: [Sanjay Sikder](https://www.linkedin.com/in/sanjay-sikder/)
+- 📧 Email: sanjaysikder71@gmail.com
