@@ -179,8 +179,8 @@ with modern Font Awesome icons.
 
 ---
 
-## Author
+## Thank you
 
 **Sanjay Sikder**
 
-Oracle APEX Developer | Oracle Database Professional
+ You can connect with me on [LinkedIn](https://www.linkedin.com/in/sanjay-sikder/)!
