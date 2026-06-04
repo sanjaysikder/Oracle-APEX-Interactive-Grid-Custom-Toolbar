@@ -183,4 +183,4 @@ with modern Font Awesome icons.
 
 **Sanjay Sikder**
 
- You can connect with me on [LinkedIn](https://www.linkedin.com/in/sanjay-sikder/)!
+💼 Connect with me on **[LinkedIn](https://www.linkedin.com/in/sanjay-sikder/)**.
