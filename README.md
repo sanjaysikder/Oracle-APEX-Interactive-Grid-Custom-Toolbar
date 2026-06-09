@@ -30,7 +30,7 @@ This JavaScript customization enhances the Oracle APEX Interactive Grid (IG) too
 
 ## Create Button Configuration
 
-The Create button is added to the right side of the Interactive Grid toolbar and can be used to open a modal dialog page for data entry.
+The Create button is added to the right side of the Interactive Grid toolbar and can be used to open a Modal Dialog page for data entry.
 
 ### JavaScript Configuration
 
@@ -45,6 +45,8 @@ actions4.controls.push({
 ```
 
 ### Register Custom Action
+
+Add the following code inside the **JavaScript Initialization Code** section:
 
 ```javascript
 config.initActions = function(actions) {
@@ -84,15 +86,25 @@ Create a hidden page item:
 P5_CREATE_URL
 ```
 
-Source Value:
+#### Source Settings
+
+| Property             | Value         |
+| -------------------- | ------------- |
+| Source Type          | Function Body |
+| Language             | PL/SQL        |
+| PL/SQL Function Body | See below     |
 
 ```plsql
-APEX_PAGE.GET_URL(
-    p_page => 10
-)
+BEGIN
+    RETURN apex_page.get_url(
+        p_page        => 27,
+        p_clear_cache => '27',
+        p_plain_url   => TRUE
+    );
+END;
 ```
 
-Replace page 10 with your modal form page number.
+> Replace page **27** with your Modal Dialog Form page number.
 
 ---
 
@@ -107,7 +119,7 @@ function(config) {
         actions4 = toolbarData.toolbarFind("actions4"),
 
         addrowAction = toolbarData.toolbarFind("selection-add-row"),
-        saveAction = toolbarData.toolbarFind("save");
+        saveAction   = toolbarData.toolbarFind("save");
 
     actions3.controls.push({
         type: "BUTTON",
@@ -194,7 +206,7 @@ function(config) {
 
 ## Installation
 
-1. Open Interactive Grid Region.
+1. Open the Interactive Grid region.
 
 2. Navigate to:
 
@@ -202,7 +214,7 @@ function(config) {
 
 3. Paste the JavaScript code.
 
-4. Create hidden item `P5_CREATE_URL`.
+4. Create the hidden item `P5_CREATE_URL`.
 
 5. Create a Modal Dialog Form page.
 
@@ -218,6 +230,15 @@ function(config) {
 
 ---
 
+## Notes
+
+* The target page should be configured as a **Modal Dialog**.
+* If the target page contains an editable Interactive Grid, ensure a valid **Primary Key Column** is defined.
+* Compatible with Universal Theme (Theme 42).
+* Uses native Oracle APEX Interactive Grid actions.
+
+---
+
 ## Compatibility
 
 * Oracle APEX 22.2+
@@ -229,10 +250,10 @@ function(config) {
 
 ## Author
 
-Sanjay Sikder
+**Sanjay Sikder**
 
 ### Contact
 
-LinkedIn: https://www.linkedin.com/in/sanjay-sikder/
-
-Email: [sanjaysikder71@gmail.com](mailto:sanjaysikder71@gmail.com)
+* LinkedIn: https://www.linkedin.com/in/sanjay-sikder/
+* Email: [sanjaysikder71@gmail.com](mailto:sanjaysikder71@gmail.com)
+* GitHub: https://github.com/SanjaySikder
