@@ -4,6 +4,7 @@
 
 This JavaScript customization enhances the Oracle APEX Interactive Grid (IG) toolbar by:
 
+* Adding a **Create** button
 * Adding a **Delete Row** button
 * Adding a **Refresh** button
 * Adding a **Reset Report** button
@@ -15,31 +16,100 @@ This JavaScript customization enhances the Oracle APEX Interactive Grid (IG) too
 
 ## Features
 
-| Feature      | Description                        |
-| ------------ | ---------------------------------- |
-| Add Row      | Quickly add new records            |
-| Delete Row   | Delete selected rows               |
-| Save         | Save all pending changes           |
-| Refresh      | Reload grid data                   |
-| Reset Report | Restore report settings to default |
-| Download     | Export grid data                   |
+| Feature      | Description                              |
+| ------------ | ---------------------------------------- |
+| Create       | Open a modal dialog for creating records |
+| Add Row      | Quickly add new records                  |
+| Delete Row   | Delete selected rows                     |
+| Save         | Save all pending changes                 |
+| Refresh      | Reload grid data                         |
+| Reset Report | Restore report settings to default       |
+| Download     | Export grid data                         |
 
 ---
 
-## JavaScript Code
+## Create Button Configuration
+
+The Create button is added to the right side of the Interactive Grid toolbar and can be used to open a modal dialog page for data entry.
+
+### JavaScript Configuration
+
+```javascript
+actions4.controls.push({
+    type: "BUTTON",
+    hot: true,
+    icon: "fa fa-plus-circle",
+    iconBeforeLabel: true,
+    action: "create-record"
+});
+```
+
+### Register Custom Action
+
+```javascript
+config.initActions = function(actions) {
+
+    actions.add({
+        name: "create-record",
+        label: "Create",
+
+        action: function(event, focusElement) {
+
+            apex.theme42.dialog(
+                apex.item("P5_CREATE_URL").getValue(),
+                {
+                    title: "Create Record",
+                    h: "auto",
+                    w: "720",
+                    mxw: "960",
+                    modal: true,
+                    dlgCls: "t-Dialog-page--standard"
+                },
+                "",
+                focusElement
+            );
+
+            return true;
+        }
+    });
+
+};
+```
+
+### Hidden Page Item
+
+Create a hidden page item:
+
+```text
+P5_CREATE_URL
+```
+
+Source Value:
+
+```plsql
+APEX_PAGE.GET_URL(
+    p_page => 10
+)
+```
+
+Replace page 10 with your modal form page number.
+
+---
+
+## Complete JavaScript Initialization Code
 
 ```javascript
 function(config) {
 
     var $ = apex.jQuery,
         toolbarData = $.apex.interactiveGrid.copyDefaultToolbar(),
-        toolbarGroup = toolbarData.toolbarFind("actions3"),
+        actions3 = toolbarData.toolbarFind("actions3"),
+        actions4 = toolbarData.toolbarFind("actions4"),
 
         addrowAction = toolbarData.toolbarFind("selection-add-row"),
-        saveAction   = toolbarData.toolbarFind("save");
+        saveAction = toolbarData.toolbarFind("save");
 
-    // Add Delete Button
-    toolbarGroup.controls.push({
+    actions3.controls.push({
         type: "BUTTON",
         action: "selection-delete",
         icon: "fa fa-trash",
@@ -47,41 +117,72 @@ function(config) {
         hot: true
     });
 
-    // Add Refresh Button
-    toolbarGroup.controls.push({
+    actions3.controls.push({
         type: "BUTTON",
         action: "refresh",
         icon: "fa fa-refresh",
         iconBeforeLabel: true
     });
 
-    // Add Reset Report Button
-    toolbarGroup.controls.push({
+    actions3.controls.push({
         type: "BUTTON",
         action: "reset-report",
         icon: "fa fa-undo",
         iconBeforeLabel: true
     });
 
-    // Add Download Button
-    toolbarGroup.controls.push({
+    actions3.controls.push({
         type: "BUTTON",
         action: "show-download-dialog",
         icon: "fa fa-download",
         iconBeforeLabel: true
     });
 
-    // Customize Add Row Button
+    actions4.controls.push({
+        type: "BUTTON",
+        action: "create-record",
+        icon: "fa fa-plus-circle",
+        iconBeforeLabel: true,
+        hot: true
+    });
+
     addrowAction.label = "Add Row";
     addrowAction.icon = "fa fa-plus";
     addrowAction.iconBeforeLabel = true;
     addrowAction.hot = true;
 
-    // Customize Save Button
     saveAction.label = "Save";
     saveAction.icon = "fa fa-save";
     saveAction.iconBeforeLabel = true;
     saveAction.hot = true;
+
+    config.initActions = function(actions) {
+
+        actions.add({
+            name: "create-record",
+            label: "Create",
+
+            action: function(event, focusElement) {
+
+                apex.theme42.dialog(
+                    apex.item("P5_CREATE_URL").getValue(),
+                    {
+                        title: "Create Record",
+                        h: "auto",
+                        w: "720",
+                        mxw: "960",
+                        modal: true,
+                        dlgCls: "t-Dialog-page--standard"
+                    },
+                    "",
+                    focusElement
+                );
+
+                return true;
+            }
+        });
+
+    };
 
     config.toolbarData = toolbarData;
 
@@ -93,69 +194,27 @@ function(config) {
 
 ## Installation
 
-1. Open your Interactive Grid region.
+1. Open Interactive Grid Region.
 
 2. Navigate to:
 
    **Attributes → Advanced → JavaScript Initialization Code**
 
-3. Paste the JavaScript code above.
+3. Paste the JavaScript code.
 
-4. Save and run the page.
+4. Create hidden item `P5_CREATE_URL`.
+
+5. Create a Modal Dialog Form page.
+
+6. Run the application.
 
 ---
 
-## Button Configuration
+## Screenshot
 
-### Delete Button
-
-```javascript
-{
-    type: "BUTTON",
-    action: "selection-delete",
-    icon: "fa fa-trash",
-    iconBeforeLabel: true,
-    hot: true
-}
+```text
+[ Add Row ] [ Save ] [ Delete ] [ Refresh ] [ Reset ] [ Download ]                       [ Create ]
 ```
-
-Deletes selected rows from the Interactive Grid.
-
-### Refresh Button
-
-```javascript
-{
-    type: "BUTTON",
-    action: "refresh",
-    icon: "fa fa-refresh"
-}
-```
-
-Reloads data from the database.
-
-### Reset Report Button
-
-```javascript
-{
-    type: "BUTTON",
-    action: "reset-report",
-    icon: "fa fa-undo"
-}
-```
-
-Restores the report to its default settings.
-
-### Download Button
-
-```javascript
-{
-    type: "BUTTON",
-    action: "show-download-dialog",
-    icon: "fa fa-download"
-}
-```
-
-Opens the Interactive Grid download/export dialog.
 
 ---
 
@@ -164,26 +223,16 @@ Opens the Interactive Grid download/export dialog.
 * Oracle APEX 22.2+
 * Oracle APEX 23.x
 * Oracle APEX 24.x
+* Oracle APEX 25.x
 
 ---
 
-## Screenshot
+## Author
 
-After applying this customization, the toolbar will contain:
+Sanjay Sikder
 
-```text
-[ Add Row ] [ Save ] [ Delete ] [ Refresh ] [ Reset ] [ Download ]
-```
+### Contact
 
-with modern Font Awesome icons.
+LinkedIn: https://www.linkedin.com/in/sanjay-sikder/
 
----
-
-## Thank you
-
-**Sanjay Sikder**
-
-## 📬 Contact
-
-- 💼 LinkedIn: [Sanjay Sikder](https://www.linkedin.com/in/sanjay-sikder/)
-- 📧 Email: sanjaysikder71@gmail.com
+Email: [sanjaysikder71@gmail.com](mailto:sanjaysikder71@gmail.com)
