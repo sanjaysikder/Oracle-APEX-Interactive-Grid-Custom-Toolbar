@@ -241,10 +241,7 @@ function(config) {
 
 ## Compatibility
 
-* Oracle APEX 22.2+
-* Oracle APEX 23.x
-* Oracle APEX 24.x
-* Oracle APEX 25.x
+* Oracle APEX 22.2 or higher
 
 ---
 
