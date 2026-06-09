@@ -1,4 +1,4 @@
-# Oracle APEX Interactive Grid Custom Toolbar with Create, Delete Row, Refresh, Download, Save Reset Report
+# Oracle APEX Interactive Grid Custom Toolbar with Create, Delete Row, Refresh, Download, Save, Reset Report Button
 
 ## Overview
 
