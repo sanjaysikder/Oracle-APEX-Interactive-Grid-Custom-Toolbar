@@ -46,7 +46,7 @@ actions4.controls.push({
 
 ### Register Custom Action
 
-Add the following code inside the **JavaScript Initialization Code** section:
+The following code has been added inside the **JavaScript Initialization Code** sect্যেছ
 
 ```javascript
 config.initActions = function(actions) {
